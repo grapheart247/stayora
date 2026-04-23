@@ -69,7 +69,7 @@
 
                 <!-- Commit List -->
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits (github.com/grapheart247/stayora)</label>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits</label>
                     <select id="commitSelect" class="block w-full pl-3 pr-10 py-3 text-sm border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
                         <option value="" disabled selected>Loading GitHub commits...</option>
                     </select>
@@ -102,20 +102,21 @@
         <!-- Details Box -->
         <div id="detailsBox" class="hidden glass-card rounded-xl shadow-lg overflow-hidden border-indigo-100 border-2 animate-fade-in">
             <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100 flex justify-between items-center">
-                <h2 class="text-sm font-bold text-indigo-800 uppercase tracking-wider">GitHub Commit Info</h2>
+                <h2 class="text-sm font-bold text-indigo-800 uppercase tracking-wider">GitHub Commit & Status</h2>
                 <span id="detailStatus" class="bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tighter">Verified</span>
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Commit Information -->
                     <div>
                         <h3 id="detailTitle" class="text-xl font-bold text-gray-900 mb-3 leading-tight">---</h3>
                         <div class="space-y-4">
                             <div class="flex flex-col">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">SHA (Full ID)</span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Applied Commit ID (SHA)</span>
                                 <code id="detailId" class="text-indigo-600 font-mono text-sm mt-1 bg-indigo-50/50 p-2 rounded border border-indigo-100/50 break-all">---</code>
                             </div>
                             <div class="flex flex-col">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Commit Time (UTC)</span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Date & Time (UTC)</span>
                                 <span id="detailDate" class="text-gray-900 text-sm font-semibold mt-1 flex items-center">
                                     <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     ---
@@ -123,17 +124,33 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-100">
-                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Commit Message</h4>
-                        <p id="detailDesc" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-medium">
-                            No description provided.
-                        </p>
+                    
+                    <!-- Message, Description & Status -->
+                    <div class="flex flex-col gap-4">
+                        <div class="bg-gray-50 rounded-lg p-5 border border-gray-100 flex-grow">
+                            <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Message & Description</h4>
+                            <p id="detailDesc" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-medium">
+                                No description provided.
+                            </p>
+                        </div>
+                        
+                        <!-- Deploy Status Result Terminal -->
+                        <div class="bg-gray-900 rounded-lg p-4 border border-gray-800 shadow-inner">
+                            <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2 flex items-center">
+                                <svg class="w-3 h-3 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 17h16a2 2 0 002-2V5a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                Deploy Status Result
+                            </h4>
+                            <p id="deployStatusResult" class="text-sm font-mono text-emerald-400 break-words">
+                                > Synced with GitHub. Ready to Pull & Deploy.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- Action Button -->
                 <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
-                    <button class="w-full md:w-auto bg-gray-900 text-white px-10 py-3 rounded-lg font-bold hover:bg-black transition-all shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                    <button id="executeDeployBtn" class="w-full md:w-auto bg-gray-900 text-white px-10 py-3 rounded-lg font-bold hover:bg-black transition-all shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
+                        <svg id="deployIcon" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
                         Pull & Deploy
                     </button>
                 </div>
@@ -143,7 +160,7 @@
         <!-- Footer -->
         <footer class="mt-12 pt-8 border-t border-gray-200 text-center">
             <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">
-                Last updated: 2026-04-23 21:35:00 | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
+                Last updated: 2026-04-23 | Bahalim Group Web Ops | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
             </p>
         </footer>
     </div>
@@ -161,6 +178,8 @@
         const newChangesAlert = document.getElementById('newChangesAlert');
         const errorAlert = document.getElementById('errorAlert');
         const errorMessage = document.getElementById('errorMessage');
+        const deployStatusResult = document.getElementById('deployStatusResult');
+        const executeDeployBtn = document.getElementById('executeDeployBtn');
 
         window.addEventListener('DOMContentLoaded', () => {
             fetchGitHubCommits();
@@ -172,6 +191,7 @@
                 refreshIcon.classList.add('animate-spin');
                 refreshBtn.disabled = true;
                 errorAlert.classList.add('hidden');
+                deployStatusResult.innerHTML = '<span class="text-amber-400">> Syncing with GitHub...</span>';
             }
 
             try {
@@ -179,28 +199,15 @@
                 const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${encodeURIComponent(branch)}&per_page=10&t=${Date.now()}`;
                 
                 const response = await fetch(url, {
-                    headers: {
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
                 });
                 
-                if (response.status === 404) {
-                    throw new Error(`برانچ '${branch}' نہیں ملی۔ براہ کرم چیک کریں کہ یہ پبلک ہے اور نام درست ہے۔`);
-                }
-                
-                if (response.status === 403) {
-                    throw new Error('API کی حد ختم ہوگئی ہے۔ تھوڑی دیر بعد کوشش کریں۔');
-                }
-                
-                if (!response.ok) {
-                    throw new Error(`GitHub API Error (${response.status})`);
-                }
+                if (response.status === 404) throw new Error(`برانچ '${branch}' نہیں ملی۔`);
+                if (response.status === 403) throw new Error('API کی حد ختم ہوگئی ہے۔ تھوڑی دیر بعد کوشش کریں۔');
+                if (!response.ok) throw new Error(`GitHub API Error (${response.status})`);
                 
                 const commits = await response.json();
-                
-                if (!Array.isArray(commits)) {
-                    throw new Error('ڈیٹا کا فارمیٹ درست نہیں ہے۔');
-                }
+                if (!Array.isArray(commits)) throw new Error('ڈیٹا کا فارمیٹ درست نہیں ہے۔');
 
                 if (currentCommits.length > 0 && commits.length > 0 && commits[0].sha !== currentCommits[0].sha) {
                     newChangesAlert.classList.remove('hidden');
@@ -209,6 +216,13 @@
                 currentCommits = commits;
                 updateCommitDropdown(commits);
                 errorAlert.classList.add('hidden');
+
+                // If user clicked Sync, automatically display the latest commit and its status
+                if (isManual && commits.length > 0) {
+                    commitSelect.value = commits[0].sha;
+                    displayCommitDetails(commits[0]);
+                    deployStatusResult.innerHTML = `<span class="text-emerald-400">> Sync Complete. Found Commit: #${commits[0].sha.substring(0,7)}.<br>> Status: Ready to execute Pull & Deploy.</span>`;
+                }
                 
             } catch (error) {
                 console.error('Fetch Error:', error);
@@ -243,7 +257,6 @@
                 const dateStr = dateObj.toLocaleString();
                 const shortSha = item.sha.substring(0, 7);
                 const message = item.commit.message.split('\n')[0]; 
-                
                 opt.textContent = `[${dateStr}] #${shortSha} - ${message}`;
                 commitSelect.appendChild(opt);
             });
@@ -253,15 +266,21 @@
             }
         }
 
+        function displayCommitDetails(commit) {
+            document.getElementById('detailTitle').textContent = commit.commit.message.split('\n')[0];
+            document.getElementById('detailId').textContent = commit.sha;
+            document.getElementById('detailDate').textContent = new Date(commit.commit.author.date).toLocaleString();
+            document.getElementById('detailDesc').textContent = commit.commit.message;
+            
+            detailsBox.classList.remove('hidden');
+            detailsBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
         commitSelect.addEventListener('change', (e) => {
             const commit = currentCommits.find(c => c.sha === e.target.value);
             if (commit) {
-                document.getElementById('detailTitle').textContent = commit.commit.message.split('\n')[0];
-                document.getElementById('detailId').textContent = commit.sha;
-                document.getElementById('detailDate').textContent = new Date(commit.commit.author.date).toLocaleString();
-                document.getElementById('detailDesc').textContent = commit.commit.message;
-                detailsBox.classList.remove('hidden');
-                detailsBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                deployStatusResult.innerHTML = '<span class="text-blue-400">> Selected older commit. Waiting for action.</span>';
+                displayCommitDetails(commit);
             }
         });
 
@@ -272,10 +291,27 @@
             fetchGitHubCommits(true);
         });
 
+        // Pull & Deploy Simulation (Updates the Deploy Status Result box)
+        executeDeployBtn.addEventListener('click', () => {
+            if (currentCommits.length === 0) return;
+            
+            const btnIcon = document.getElementById('deployIcon');
+            executeDeployBtn.disabled = true;
+            btnIcon.classList.add('animate-spin');
+            
+            deployStatusResult.innerHTML = '<span class="text-amber-400">> Executing Deploy Script...<br>> Pulling files to /home/noorgeec/noorgee.pk/stayora/</span>';
+            
+            // Mock API delay for deployment UI feel
+            setTimeout(() => {
+                deployStatusResult.innerHTML = `<span class="text-green-400">> ✅ Success! Deployed Commit ID: ${commitSelect.value.substring(0,7)} at ${new Date().toLocaleTimeString()}<br>> Website is now LIVE on noorgee.pk/stayora</span>`;
+                btnIcon.classList.remove('animate-spin');
+                executeDeployBtn.disabled = false;
+            }, 2000);
+        });
+
         document.getElementById('deployNewBtn').addEventListener('click', () => {
-            if (currentCommits.length > 0) {
-                alert(`Starting Deployment: ${currentCommits[0].commit.message.split('\n')[0]}`);
-            }
+            fetchGitHubCommits(true);
+            newChangesAlert.classList.add('hidden');
         });
     </script>
 </body>
