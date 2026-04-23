@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/noorgeec/noorgee.pk/stayora
+    - /bin/cp -R * $DEPLOYPATH
