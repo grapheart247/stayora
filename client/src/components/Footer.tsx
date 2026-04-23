@@ -15,7 +15,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">StayOra</h3>
+            <img
+              src="https://noorgee.pk/stayora/img/stayora-logo.jpg"
+              alt="StayOra Logo"
+              className="h-12 md:h-16 w-auto object-contain mb-4"
+            />
             <p className="text-secondary-foreground/80 leading-relaxed">
               Luxury guest house offering comfort, elegance, and convenience in the heart of Karachi.
             </p>

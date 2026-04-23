@@ -19,12 +19,20 @@ export default function Hero() {
       {/* Content */}
       <div className="container relative z-10 py-20">
         <div className="max-w-2xl">
+          {/* Logo */}
+          <div className="mb-8">
+            <img
+              src="https://noorgee.pk/stayora/img/stayora-logo.jpg"
+              alt="StayOra Logo"
+              className="h-16 md:h-20 w-auto object-contain"
+            />
+          </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            StayOra
+            Luxury Stay
             <br />
-            <span className="text-primary">Luxury Stay</span>
+            <span className="text-primary">in the Heart of Karachi</span>
             <br />
-            in the Heart of Karachi ✨
+            ✨
           </h1>
 
           <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">

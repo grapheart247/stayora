@@ -25,8 +25,13 @@ export default function Navigation() {
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-md">
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="text-2xl md:text-3xl font-bold text-gradient">
+        <div className="flex items-center gap-3">
+          <img
+            src="https://noorgee.pk/stayora/img/stayora-logo.jpg"
+            alt="StayOra Logo"
+            className="h-10 md:h-12 w-auto object-contain"
+          />
+          <div className="text-xl md:text-2xl font-bold text-gradient hidden sm:block">
             StayOra
           </div>
         </div>
