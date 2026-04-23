@@ -46,11 +46,11 @@
             </div>
             <div class="flex flex-col items-end gap-2">
                 <div class="flex items-center text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
-                    <span class="pulse-dot"></span> Auto-Syncing
+                    <span class="pulse-dot"></span> Auto-Syncing (Real-time)
                 </div>
                 <button id="refreshBtn" class="inline-flex items-center px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-all shadow-md">
                     <svg id="refreshIcon" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    Sync Now
+                    Sync GitHub
                 </button>
             </div>
         </div>
@@ -62,26 +62,38 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Branch</label>
                     <select id="branchSelect" class="block w-full pl-3 pr-10 py-3 text-base border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
-                        <option value="main-so" selected>main-so</option>
-                        <option value="main-copilot">main-copilot</option>
+                        <option value="main" selected>main</option>
+                        <option value="master">master</option>
+                        <option value="develop">develop</option>
                     </select>
                 </div>
 
                 <!-- Commit List -->
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits (Time Indexed)</label>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits (github.com/grapheart247/stayora)</label>
                     <select id="commitSelect" class="block w-full pl-3 pr-10 py-3 text-sm border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
-                        <option value="" disabled selected>Loading commits...</option>
+                        <option value="" disabled selected>Loading GitHub commits...</option>
                     </select>
                 </div>
             </div>
+        </div>
+
+        <!-- Error Notification -->
+        <div id="errorAlert" class="hidden animate-fade-in mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center text-red-800">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span id="errorMessage" class="text-sm font-medium">GitHub API se connection fail ho gaya.</span>
+            </div>
+            <button onclick="fetchGitHubCommits(true)" class="bg-red-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors shadow-sm">
+                Retry Now
+            </button>
         </div>
 
         <!-- Notification for New Changes -->
         <div id="newChangesAlert" class="hidden animate-fade-in mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between">
             <div class="flex items-center text-amber-800">
                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                <span class="text-sm font-medium">New changes detected on <strong id="alertBranchName">main-so</strong>!</span>
+                <span class="text-sm font-medium">New commits detected on GitHub!</span>
             </div>
             <button id="deployNewBtn" class="bg-amber-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-700 transition-colors shadow-sm">
                 Deploy Latest
@@ -91,8 +103,8 @@
         <!-- Details Box -->
         <div id="detailsBox" class="hidden glass-card rounded-xl shadow-lg overflow-hidden border-indigo-100 border-2 animate-fade-in">
             <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100 flex justify-between items-center">
-                <h2 class="text-sm font-bold text-indigo-800 uppercase tracking-wider">Full Commit Details</h2>
-                <span id="detailStatus" class="bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tighter">Verified & Ready</span>
+                <h2 class="text-sm font-bold text-indigo-800 uppercase tracking-wider">GitHub Commit Info</h2>
+                <span id="detailStatus" class="bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tighter">Verified</span>
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -100,20 +112,20 @@
                         <h3 id="detailTitle" class="text-xl font-bold text-gray-900 mb-3 leading-tight">---</h3>
                         <div class="space-y-4">
                             <div class="flex flex-col">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Commit Identifier (SHA)</span>
-                                <code id="detailId" class="text-indigo-600 font-mono text-sm mt-1 bg-indigo-50/50 p-2 rounded border border-indigo-100/50">---</code>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">SHA (Full ID)</span>
+                                <code id="detailId" class="text-indigo-600 font-mono text-sm mt-1 bg-indigo-50/50 p-2 rounded border border-indigo-100/50 break-all">---</code>
                             </div>
                             <div class="flex flex-col">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Push Date & Time</span>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Commit Time (UTC)</span>
                                 <span id="detailDate" class="text-gray-900 text-sm font-semibold mt-1 flex items-center">
-                                    <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     ---
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="bg-gray-50 rounded-lg p-5 border border-gray-100">
-                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Message & Work Log</h4>
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Commit Message</h4>
                         <p id="detailDesc" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-medium">
                             No description provided.
                         </p>
@@ -122,8 +134,8 @@
                 
                 <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
                     <button class="w-full md:w-auto bg-gray-900 text-white px-10 py-3 rounded-lg font-bold hover:bg-black transition-all shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        Execute Deployment
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                        Pull & Deploy
                     </button>
                 </div>
             </div>
@@ -132,21 +144,16 @@
         <!-- Footer -->
         <footer class="mt-12 pt-8 border-t border-gray-200 text-center">
             <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">
-                Last updated: 2026-04-23 21:24:45 | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
+                Last updated: 2026-04-23 21:35:00 | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
             </p>
         </footer>
     </div>
 
     <script>
-        const mockCommits = {
-            "main-so": [
-                { key: "ms1", id: "f29a3b1", title: "Stayora UI Final Polish", desc: "Added responsive grid for property listings.\nFixed mobile navigation overlap.", date: "2026-04-23 20:10:00" },
-                { key: "ms2", id: "d4e5f67", title: "Auth Logic Update", desc: "Improved session handling for noorgee.pk root domain.", date: "2026-04-22 15:45:12" }
-            ],
-            "main-copilot": [
-                { key: "mc1", id: "a1b2c3d", title: "Copilot Integration v2", desc: "Updated auto-suggestions for property descriptions.", date: "2026-04-23 11:30:45" }
-            ]
-        };
+        // Ensure owner and name are correct and repo is public
+        const REPO_OWNER = 'grapheart247';
+        const REPO_NAME = 'stayora';
+        let currentCommits = [];
 
         const refreshBtn = document.getElementById('refreshBtn');
         const refreshIcon = document.getElementById('refreshIcon');
@@ -154,75 +161,127 @@
         const commitSelect = document.getElementById('commitSelect');
         const detailsBox = document.getElementById('detailsBox');
         const newChangesAlert = document.getElementById('newChangesAlert');
-        const alertBranchName = document.getElementById('alertBranchName');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
 
         // Initial Load
         window.addEventListener('DOMContentLoaded', () => {
-            updateCommitDropdown(branchSelect.value);
-            // Start Auto-Sync every 30 seconds
-            setInterval(autoSync, 30000);
+            fetchGitHubCommits();
+            // Auto-Sync every 60 seconds
+            setInterval(fetchGitHubCommits, 60000);
         });
 
-        async function autoSync() {
-            refreshIcon.classList.add('animate-spin');
-            // Simulate network delay
-            setTimeout(() => {
+        async function fetchGitHubCommits(isManual = false) {
+            if (isManual) {
+                refreshIcon.classList.add('animate-spin');
+                refreshBtn.disabled = true;
+                errorAlert.classList.add('hidden');
+            }
+
+            try {
                 const branch = branchSelect.value;
-                updateCommitDropdown(branch);
-                refreshIcon.classList.remove('animate-spin');
-                console.log('Background Sync Complete at ' + new Date().toLocaleTimeString());
-            }, 1000);
+                // Construct API URL carefully
+                const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${encodeURIComponent(branch)}&per_page=10&t=${Date.now()}`;
+                
+                const response = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.status === 404) {
+                    throw new Error(`Repository ya Branch nahi mili (404). Please check karein ki 'grapheart247/stayora' public hai aur branch '${branch}' exist karti hai.`);
+                }
+                
+                if (response.status === 403) {
+                    throw new Error('GitHub API rate limit exceeded. Please wait a while.');
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`GitHub API Error (${response.status}): ${response.statusText}`);
+                }
+                
+                const commits = await response.json();
+                
+                if (!Array.isArray(commits)) {
+                    throw new Error('Invalid response format from GitHub');
+                }
+
+                // Check if new commits exist to show alert
+                if (currentCommits.length > 0 && commits.length > 0 && commits[0].sha !== currentCommits[0].sha) {
+                    newChangesAlert.classList.remove('hidden');
+                }
+
+                currentCommits = commits;
+                updateCommitDropdown(commits);
+                errorAlert.classList.add('hidden');
+                
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                errorMessage.textContent = error.message;
+                errorAlert.classList.remove('hidden');
+                commitSelect.innerHTML = '<option value="" disabled selected>Error loading commits</option>';
+            } finally {
+                if (isManual) {
+                    setTimeout(() => {
+                        refreshIcon.classList.remove('animate-spin');
+                        refreshBtn.disabled = false;
+                    }, 800);
+                }
+            }
         }
 
-        refreshBtn.addEventListener('click', () => {
-            refreshIcon.classList.add('animate-spin');
-            refreshBtn.disabled = true;
-            setTimeout(() => {
-                refreshIcon.classList.remove('animate-spin');
-                refreshBtn.disabled = false;
-                const branch = branchSelect.value;
-                updateCommitDropdown(branch);
-                alertBranchName.textContent = branch;
-                newChangesAlert.classList.remove('hidden');
-            }, 1200);
-        });
+        refreshBtn.addEventListener('click', () => fetchGitHubCommits(true));
 
-        function updateCommitDropdown(branch) {
-            commitSelect.innerHTML = '<option value="" disabled selected>Select a commit</option>';
-            const commits = mockCommits[branch] || [];
-            commits.forEach(c => {
+        function updateCommitDropdown(commits) {
+            const previousValue = commitSelect.value;
+            commitSelect.innerHTML = '<option value="" disabled selected>Select a GitHub commit</option>';
+            
+            if (commits.length === 0) {
+                commitSelect.innerHTML = '<option value="" disabled selected>No commits found on this branch</option>';
+                return;
+            }
+
+            commits.forEach(item => {
                 const opt = document.createElement('option');
-                opt.value = c.key;
-                // Show Date & Time in the dropdown label as requested
-                opt.textContent = `[${c.date}] #${c.id} - ${c.title}`;
+                opt.value = item.sha;
+                const dateObj = new Date(item.commit.author.date);
+                const dateStr = dateObj.toLocaleString();
+                const shortSha = item.sha.substring(0, 7);
+                const message = item.commit.message.split('\n')[0]; 
+                
+                opt.textContent = `[${dateStr}] #${shortSha} - ${message}`;
                 commitSelect.appendChild(opt);
             });
+
+            if (previousValue && commits.some(c => c.sha === previousValue)) {
+                commitSelect.value = previousValue;
+            }
         }
 
         commitSelect.addEventListener('change', (e) => {
-            const branch = branchSelect.value;
-            const data = mockCommits[branch].find(c => c.key === e.target.value);
-            if (data) {
-                document.getElementById('detailTitle').textContent = data.title;
-                document.getElementById('detailId').textContent = data.id;
-                document.getElementById('detailDate').textContent = data.date;
-                document.getElementById('detailDesc').textContent = data.desc;
+            const commit = currentCommits.find(c => c.sha === e.target.value);
+            if (commit) {
+                document.getElementById('detailTitle').textContent = commit.commit.message.split('\n')[0];
+                document.getElementById('detailId').textContent = commit.sha;
+                document.getElementById('detailDate').textContent = new Date(commit.commit.author.date).toLocaleString();
+                document.getElementById('detailDesc').textContent = commit.commit.message;
                 detailsBox.classList.remove('hidden');
                 detailsBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
 
-        document.getElementById('deployNewBtn').addEventListener('click', () => {
-            const branch = branchSelect.value;
-            const latest = mockCommits[branch][0];
-            alert(`Initiating deployment for latest commit: ${latest.title} (${latest.id})`);
-        });
-
         branchSelect.addEventListener('change', () => {
-            commitSelect.innerHTML = '<option value="" disabled selected>Syncing commits...</option>';
+            commitSelect.innerHTML = '<option value="" disabled selected>Switching branch...</option>';
             detailsBox.classList.add('hidden');
             newChangesAlert.classList.add('hidden');
-            setTimeout(() => updateCommitDropdown(branchSelect.value), 500);
+            fetchGitHubCommits(true);
+        });
+
+        document.getElementById('deployNewBtn').addEventListener('click', () => {
+            if (currentCommits.length > 0) {
+                alert(`Starting Deployment: ${currentCommits[0].commit.message.split('\n')[0]}`);
+            }
         });
     </script>
 </body>
