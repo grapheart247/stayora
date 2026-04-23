@@ -25,7 +25,12 @@
             <div>
                 <div class="flex items-center gap-2 mb-1">
                     <span class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Production</span>
-                    <h1 class="text-xl font-bold text-gray-600">noorgee.pk/<span class="text-indigo-600">stayora</span></h1>
+                    <a href="https://noorgee.pk/stayora" target="_blank" class="group">
+                        <h1 class="text-xl font-bold text-gray-600 group-hover:text-indigo-600 transition-colors">
+                            noorgee.pk/<span class="text-indigo-600 group-hover:text-indigo-800">stayora</span>
+                            <svg class="inline-block w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </h1>
+                    </a>
                 </div>
                 <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">Deploy Dashboard</h2>
                 <div class="flex items-center mt-2 text-sm text-gray-500">
@@ -53,7 +58,7 @@
                     </select>
                 </div>
 
-                <!-- Commit List (Initially Empty or Mocked) -->
+                <!-- Commit List -->
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits</label>
                     <select id="commitSelect" class="block w-full pl-3 pr-10 py-3 text-base border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
@@ -114,13 +119,12 @@
         <!-- Footer -->
         <footer class="mt-12 pt-8 border-t border-gray-200 text-center">
             <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">
-                Last updated: 2026-04-23 21:14:00 | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
+                Last updated: 2026-04-23 21:20:00 | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
             </p>
         </footer>
     </div>
 
     <script>
-        // Updated Mock Data for specific branches
         const mockCommits = {
             "main-so": [
                 { key: "ms1", id: "f29a3b1", title: "Stayora UI Final Polish", desc: "Added responsive grid for property listings.\nFixed mobile navigation overlap.", date: "2026-04-23 20:10:00" },
@@ -139,24 +143,16 @@
         const newChangesAlert = document.getElementById('newChangesAlert');
         const alertBranchName = document.getElementById('alertBranchName');
 
-        // Refresh logic
         refreshBtn.addEventListener('click', () => {
             refreshIcon.classList.add('animate-spin');
             refreshBtn.disabled = true;
-            
-            // Simulating API fetch
             setTimeout(() => {
                 refreshIcon.classList.remove('animate-spin');
                 refreshBtn.disabled = false;
-                
                 const branch = branchSelect.value;
                 updateCommitDropdown(branch);
-                
-                // Show notification
                 alertBranchName.textContent = branch;
                 newChangesAlert.classList.remove('hidden');
-                
-                console.log(`Fetched changes for ${branch}`);
             }, 1200);
         });
 
@@ -171,30 +167,25 @@
             });
         }
 
-        // Show Details Logic
         commitSelect.addEventListener('change', (e) => {
             const branch = branchSelect.value;
             const data = mockCommits[branch].find(c => c.key === e.target.value);
-            
             if (data) {
                 document.getElementById('detailTitle').textContent = data.title;
                 document.getElementById('detailId').textContent = data.id;
                 document.getElementById('detailDate').textContent = data.date;
                 document.getElementById('detailDesc').textContent = data.desc;
-                
                 detailsBox.classList.remove('hidden');
                 detailsBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
 
-        // Deploy New Button logic
         document.getElementById('deployNewBtn').addEventListener('click', () => {
             const branch = branchSelect.value;
             const latest = mockCommits[branch][0];
             alert(`Initiating deployment for latest commit: ${latest.title} (${latest.id})`);
         });
 
-        // Reset on branch change
         branchSelect.addEventListener('change', () => {
             commitSelect.innerHTML = '<option value="" disabled selected>Refresh to fetch commits</option>';
             detailsBox.classList.add('hidden');
