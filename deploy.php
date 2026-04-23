@@ -62,9 +62,8 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Branch</label>
                     <select id="branchSelect" class="block w-full pl-3 pr-10 py-3 text-base border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
-                        <option value="main" selected>main</option>
-                        <option value="master">master</option>
-                        <option value="develop">develop</option>
+                        <option value="main-so" selected>main-so</option>
+                        <option value="main-copilot">main-copilot</option>
                     </select>
                 </div>
 
@@ -82,7 +81,7 @@
         <div id="errorAlert" class="hidden animate-fade-in mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
             <div class="flex items-center text-red-800">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span id="errorMessage" class="text-sm font-medium">GitHub API se connection fail ho gaya.</span>
+                <span id="errorMessage" class="text-sm font-medium">GitHub API سے کنکشن میں مسئلہ ہے۔</span>
             </div>
             <button onclick="fetchGitHubCommits(true)" class="bg-red-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors shadow-sm">
                 Retry Now
@@ -150,7 +149,6 @@
     </div>
 
     <script>
-        // Ensure owner and name are correct and repo is public
         const REPO_OWNER = 'grapheart247';
         const REPO_NAME = 'stayora';
         let currentCommits = [];
@@ -164,10 +162,8 @@
         const errorAlert = document.getElementById('errorAlert');
         const errorMessage = document.getElementById('errorMessage');
 
-        // Initial Load
         window.addEventListener('DOMContentLoaded', () => {
             fetchGitHubCommits();
-            // Auto-Sync every 60 seconds
             setInterval(fetchGitHubCommits, 60000);
         });
 
@@ -180,7 +176,6 @@
 
             try {
                 const branch = branchSelect.value;
-                // Construct API URL carefully
                 const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${encodeURIComponent(branch)}&per_page=10&t=${Date.now()}`;
                 
                 const response = await fetch(url, {
@@ -190,24 +185,23 @@
                 });
                 
                 if (response.status === 404) {
-                    throw new Error(`Repository ya Branch nahi mili (404). Please check karein ki 'grapheart247/stayora' public hai aur branch '${branch}' exist karti hai.`);
+                    throw new Error(`برانچ '${branch}' نہیں ملی۔ براہ کرم چیک کریں کہ یہ پبلک ہے اور نام درست ہے۔`);
                 }
                 
                 if (response.status === 403) {
-                    throw new Error('GitHub API rate limit exceeded. Please wait a while.');
+                    throw new Error('API کی حد ختم ہوگئی ہے۔ تھوڑی دیر بعد کوشش کریں۔');
                 }
                 
                 if (!response.ok) {
-                    throw new Error(`GitHub API Error (${response.status}): ${response.statusText}`);
+                    throw new Error(`GitHub API Error (${response.status})`);
                 }
                 
                 const commits = await response.json();
                 
                 if (!Array.isArray(commits)) {
-                    throw new Error('Invalid response format from GitHub');
+                    throw new Error('ڈیٹا کا فارمیٹ درست نہیں ہے۔');
                 }
 
-                // Check if new commits exist to show alert
                 if (currentCommits.length > 0 && commits.length > 0 && commits[0].sha !== currentCommits[0].sha) {
                     newChangesAlert.classList.remove('hidden');
                 }
@@ -220,7 +214,7 @@
                 console.error('Fetch Error:', error);
                 errorMessage.textContent = error.message;
                 errorAlert.classList.remove('hidden');
-                commitSelect.innerHTML = '<option value="" disabled selected>Error loading commits</option>';
+                commitSelect.innerHTML = '<option value="" disabled selected>ایرور: ڈیٹا لوڈ نہیں ہوسکا</option>';
             } finally {
                 if (isManual) {
                     setTimeout(() => {
@@ -238,7 +232,7 @@
             commitSelect.innerHTML = '<option value="" disabled selected>Select a GitHub commit</option>';
             
             if (commits.length === 0) {
-                commitSelect.innerHTML = '<option value="" disabled selected>No commits found on this branch</option>';
+                commitSelect.innerHTML = '<option value="" disabled selected>اس برانچ پر کوئی کمٹ نہیں ملی</option>';
                 return;
             }
 
@@ -272,7 +266,7 @@
         });
 
         branchSelect.addEventListener('change', () => {
-            commitSelect.innerHTML = '<option value="" disabled selected>Switching branch...</option>';
+            commitSelect.innerHTML = '<option value="" disabled selected>برانچ تبدیل ہو رہی ہے...</option>';
             detailsBox.classList.add('hidden');
             newChangesAlert.classList.add('hidden');
             fetchGitHubCommits(true);
