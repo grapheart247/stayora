@@ -1,351 +1,317 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayOra - Luxury Guest House in Karachi</title>
+    <title>Deployment Manager | stayora.com.pk</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #fafaf9; /* stone-50 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 1);
         }
-        
-        h1, h2, h3, h4, h5, .font-serif { 
-            font-family: 'Playfair Display', serif; 
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .pulse-dot {
+            height: 8px; width: 8px; background-color: #10b981;
+            border-radius: 50%; display: inline-block;
+            margin-right: 6px; animation: pulse 2s infinite;
         }
-
-        /* Dynamic Parallax Hero */
-        .hero-section {
-            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.5)), url('http://noorgee.pk/img/SO-room-1.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        /* Interactive Card Hover Effects */
-        .elegant-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .elegant-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #d97706; /* amber-600 */
-        }
-
-        /* Custom Scrollbar for a premium feel */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #064e3b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #d97706; }
+        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
     </style>
 </head>
-<body class="text-slate-800 antialiased">
-    <!-- Navigation Bar -->
-    <nav id="navbar" class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-stone-200 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo Area -->
-                <div class="flex items-center space-x-3">
-                    <img src="http://noorgee.pk/stayora/img/stay-edited.png" alt="StayOra Logo" class="h-12 w-auto object-contain rounded shadow-sm">
-                    <span class="text-2xl font-serif font-bold text-emerald-900 tracking-wide hidden sm:block">StayOra</span>
+<body class="bg-gray-50 min-h-screen text-gray-900">
+
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <!-- Header Section -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-4 border-b border-gray-200 pb-6">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Production</span>
+                    <a href="stayora.com.pk" target="_blank" class="group">
+                        <h1 class="text-xl font-bold text-gray-600 group-hover:text-indigo-600 transition-colors">
+                            stayora<span class="text-indigo-600 group-hover:text-indigo-800">.com.pk</span>
+                            <svg class="inline-block w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </h1>
+                    </a>
                 </div>
-                
-                <!-- Desktop Menu -->
-                <ul class="hidden md:flex space-x-8 items-center">
-                    <li><a href="#home" class="text-sm font-medium text-slate-600 hover:text-amber-600 transition duration-300 uppercase tracking-wider">Home</a></li>
-                    <li><a href="#amenities" class="text-sm font-medium text-slate-600 hover:text-amber-600 transition duration-300 uppercase tracking-wider">Amenities</a></li>
-                    <li><a href="#rooms" class="text-sm font-medium text-slate-600 hover:text-amber-600 transition duration-300 uppercase tracking-wider">Rooms</a></li>
-                    <li><a href="#policies" class="text-sm font-medium text-slate-600 hover:text-amber-600 transition duration-300 uppercase tracking-wider">Policies</a></li>
-                    <li>
-                        <a href="https://wa.me/923282255771" target="_blank" class="bg-emerald-900 text-amber-500 hover:bg-emerald-800 hover:text-amber-400 px-6 py-2.5 rounded-none border border-emerald-900 transition duration-300 font-medium tracking-wide flex items-center">
-                            <i class="fab fa-whatsapp mr-2"></i> Book Now
-                        </a>
-                    </li>
-                </ul>
-                
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-emerald-900 hover:text-amber-600 transition">
-                    <i class="fas fa-bars text-2xl"></i>
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">Deploy Dashboard</h2>
+                <div class="flex items-center mt-2 text-sm text-gray-500">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <a href="https://github.com/stayoraguesthouse-code/StayOra" target="_blank" class="hover:text-indigo-600 transition-colors">grapheart247/stayora</a>
+                </div>
+            </div>
+            <div class="flex flex-col items-end gap-2">
+                <div class="flex items-center text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
+                    <span class="pulse-dot"></span> Auto-Syncing (Real-time)
+                </div>
+                <button id="refreshBtn" class="inline-flex items-center px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-all shadow-md">
+                    <svg id="refreshIcon" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Sync GitHub
                 </button>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-100 pb-4 absolute w-full left-0 shadow-lg">
-                <a href="#home" class="block py-3 px-4 text-slate-600 hover:bg-stone-50 hover:text-amber-600 transition">Home</a>
-                <a href="#amenities" class="block py-3 px-4 text-slate-600 hover:bg-stone-50 hover:text-amber-600 transition">Amenities</a>
-                <a href="#rooms" class="block py-3 px-4 text-slate-600 hover:bg-stone-50 hover:text-amber-600 transition">Rooms</a>
-                <a href="#policies" class="block py-3 px-4 text-slate-600 hover:bg-stone-50 hover:text-amber-600 transition">Policies</a>
-                <a href="https://wa.me/923282255771" class="block py-3 px-4 font-bold text-emerald-900 hover:bg-stone-50 transition">Contact via WhatsApp</a>
-            </div>
         </div>
-    </nav>
 
-    <!-- Interactive Hero Section -->
-    <section id="home" class="hero-section min-h-[90vh] flex items-center justify-center relative pt-20">
-        <!-- Decorative border element -->
-        <div class="absolute inset-4 border border-white/20 pointer-events-none hidden md:block"></div>
-        
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 mt-10">
-            <span class="text-amber-500 font-medium tracking-[0.2em] uppercase text-sm mb-4 block animate-fade-in-up">Welcome to your sanctuary</span>
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight drop-shadow-lg">
-                Luxury Stay in the <br/><span class="text-amber-500 italic">Heart of Karachi</span>
-            </h1>
-            <p class="text-lg md:text-xl text-stone-200 mb-10 max-w-2xl mx-auto font-light tracking-wide">
-                Discover the perfect blend of comfort, elegance, and convenience at StayOra — where every stay is crafted to feel like a premium home.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <a href="https://wa.me/923282255771" target="_blank" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-emerald-900 bg-amber-500 overflow-hidden transition-all duration-300 hover:bg-amber-400 shadow-xl hover:shadow-amber-500/30 w-full sm:w-auto min-w-[200px]">
-                    <span class="mr-2"><i class="fab fa-whatsapp text-lg"></i></span>
-                    <span>Reserve Your Stay</span>
-                </a>
-                <a href="#rooms" class="group inline-flex items-center justify-center px-8 py-4 font-medium text-white border border-white/50 hover:bg-white/10 transition-all duration-300 w-full sm:w-auto min-w-[200px] backdrop-blur-sm">
-                    <span>View Our Suites</span>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <a href="#amenities" class="text-white/70 hover:text-amber-500 transition">
-                <i class="fas fa-chevron-down text-2xl"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Premium Amenities Section -->
-    <section id="amenities" class="py-24 bg-stone-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-emerald-700 font-medium tracking-widest uppercase text-xs">Experience Perfection</span>
-                <h2 class="text-4xl font-serif font-bold text-slate-900 mt-2 mb-4">Our Premium Amenities</h2>
-                <div class="h-1 w-24 bg-amber-500 mx-auto"></div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Amenity Item -->
-                <div class="elegant-card group bg-white p-8 border border-stone-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center mb-6 group-hover:bg-emerald-900 transition-colors duration-300">
-                        <i class="fas fa-wifi text-2xl text-emerald-700 group-hover:text-amber-500 transition-colors duration-300"></i>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-slate-900 mb-3">High-Speed WiFi</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Uninterrupted, lightning-fast connectivity across the entire property.</p>
-                </div>
-
-                <div class="elegant-card group bg-white p-8 border border-stone-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center mb-6 group-hover:bg-emerald-900 transition-colors duration-300">
-                        <i class="fas fa-shield-halved text-2xl text-emerald-700 group-hover:text-amber-500 transition-colors duration-300"></i>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-slate-900 mb-3">Secure Parking</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Dedicated, monitored indoor parking ensuring your vehicle's safety.</p>
-                </div>
-
-                <div class="elegant-card group bg-white p-8 border border-stone-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center mb-6 group-hover:bg-emerald-900 transition-colors duration-300">
-                        <i class="fas fa-tv text-2xl text-emerald-700 group-hover:text-amber-500 transition-colors duration-300"></i>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-slate-900 mb-3">Smart Entertainment</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">40" Smart TVs with premium streaming and mini-fridges in all rooms.</p>
-                </div>
-
-                <div class="elegant-card group bg-white p-8 border border-stone-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center mb-6 group-hover:bg-emerald-900 transition-colors duration-300">
-                        <i class="fas fa-concierge-bell text-2xl text-emerald-700 group-hover:text-amber-500 transition-colors duration-300"></i>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-slate-900 mb-3">24/7 Room Service</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Dedicated staff ready to cater to your needs at any hour of the day.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Elegant Rooms Section -->
-    <section id="rooms" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+        <!-- Controls Section -->
+        <div class="glass-card rounded-xl p-6 shadow-sm mb-6 border-l-4 border-l-indigo-500">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Branch Selection -->
                 <div>
-                    <span class="text-emerald-700 font-medium tracking-widest uppercase text-xs">Accommodation</span>
-                    <h2 class="text-4xl font-serif font-bold text-slate-900 mt-2">Rooms & Suites</h2>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Branch</label>
+                    <select id="branchSelect" class="block w-full pl-3 pr-10 py-3 text-base border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
+                        <option value="main-so" selected>main-so</option>
+                        <option value="main-copilot">main-copilot</option>
+                    </select>
                 </div>
-                <div class="mt-4 md:mt-0 text-slate-500 max-w-md md:text-right text-sm">
-                    Designed with luxury and tranquility in mind. Every room offers a perfect retreat after a busy day in the city.
+
+                <!-- Commit List -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Available Commits</label>
+                    <select id="commitSelect" class="block w-full pl-3 pr-10 py-3 text-sm border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg border bg-white transition-all">
+                        <option value="" disabled selected>Loading GitHub commits...</option>
+                    </select>
                 </div>
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <!-- Premium Room -->
-                <div class="group bg-stone-50 border border-stone-200 overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col">
-                    <div class="p-8 md:p-10 flex-grow relative">
-                        <div class="absolute top-0 right-0 bg-emerald-900 text-amber-500 text-xs font-bold px-4 py-1 tracking-wider uppercase">Most Popular</div>
-                        
-                        <h3 class="text-3xl font-serif font-bold text-slate-900 mb-2 group-hover:text-emerald-800 transition-colors">Premium Suite</h3>
-                        <p class="text-amber-600 font-medium tracking-wide text-sm mb-6 uppercase">Double Bed</p>
-                        
-                        <div class="flex items-baseline mb-8">
-                            <span class="text-4xl font-bold text-slate-900">PKR 8,000</span>
-                            <span class="text-slate-500 ml-2">/ Night</span>
+        <!-- Error Notification -->
+        <div id="errorAlert" class="hidden animate-fade-in mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center text-red-800">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span id="errorMessage" class="text-sm font-medium">GitHub API سے کنکشن میں مسئلہ ہے۔</span>
+            </div>
+            <button onclick="fetchGitHubCommits(true)" class="bg-red-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-red-700 transition-colors shadow-sm">
+                Retry Now
+            </button>
+        </div>
+
+        <!-- Notification for New Changes -->
+        <div id="newChangesAlert" class="hidden animate-fade-in mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center text-amber-800">
+                <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                <span class="text-sm font-medium">New commits detected on GitHub!</span>
+            </div>
+            <button id="deployNewBtn" class="bg-amber-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-700 transition-colors shadow-sm">
+                Deploy Latest
+            </button>
+        </div>
+
+        <!-- Details Box -->
+        <div id="detailsBox" class="hidden glass-card rounded-xl shadow-lg overflow-hidden border-indigo-100 border-2 animate-fade-in">
+            <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100 flex justify-between items-center">
+                <h2 class="text-sm font-bold text-indigo-800 uppercase tracking-wider">GitHub Commit & Status</h2>
+                <span id="detailStatus" class="bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tighter">Verified</span>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Commit Information -->
+                    <div>
+                        <h3 id="detailTitle" class="text-xl font-bold text-gray-900 mb-3 leading-tight">---</h3>
+                        <div class="space-y-4">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Applied Commit ID (SHA)</span>
+                                <code id="detailId" class="text-indigo-600 font-mono text-sm mt-1 bg-indigo-50/50 p-2 rounded border border-indigo-100/50 break-all">---</code>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Date & Time (UTC)</span>
+                                <span id="detailDate" class="text-gray-900 text-sm font-semibold mt-1 flex items-center">
+                                    <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    ---
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Message, Description & Status -->
+                    <div class="flex flex-col gap-4">
+                        <div class="bg-gray-50 rounded-lg p-5 border border-gray-100 flex-grow">
+                            <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">Message & Description</h4>
+                            <p id="detailDesc" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-medium">
+                                No description provided.
+                            </p>
                         </div>
                         
-                        <ul class="space-y-4 mb-8 text-slate-600">
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Spacious king/double bed arrangement</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Beautiful garden view & seating</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>En-suite luxury private bathroom</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Complimentary hot breakfast included</span></li>
-                        </ul>
-                    </div>
-                    <a href="https://wa.me/923282255771" target="_blank" class="bg-slate-900 group-hover:bg-emerald-900 text-white text-center py-4 font-medium uppercase tracking-widest text-sm transition-colors duration-300">
-                        Reserve This Suite
-                    </a>
-                </div>
-
-                <!-- Standard Room -->
-                <div class="group bg-stone-50 border border-stone-200 overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col">
-                    <div class="p-8 md:p-10 flex-grow">
-                        <h3 class="text-3xl font-serif font-bold text-slate-900 mb-2 group-hover:text-emerald-800 transition-colors">Executive Single</h3>
-                        <p class="text-emerald-600 font-medium tracking-wide text-sm mb-6 uppercase">Per Person</p>
-                        
-                        <div class="flex items-baseline mb-8">
-                            <span class="text-4xl font-bold text-slate-900">PKR 6,000</span>
-                            <span class="text-slate-500 ml-2">/ Night</span>
+                        <!-- Deploy Status Result Terminal -->
+                        <div class="bg-gray-900 rounded-lg p-4 border border-gray-800 shadow-inner">
+                            <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2 flex items-center">
+                                <svg class="w-3 h-3 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 17h16a2 2 0 002-2V5a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                Deploy Status Result
+                            </h4>
+                            <p id="deployStatusResult" class="text-sm font-mono text-emerald-400 break-words">
+                                > Synced with GitHub. Ready to Pull & Deploy.
+                            </p>
                         </div>
-                        
-                        <ul class="space-y-4 mb-8 text-slate-600">
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Comfortable luxury single bed</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Cozy, climate-controlled space</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Smart TV & High-speed WiFi</span></li>
-                            <li class="flex items-start"><i class="fas fa-check text-emerald-600 mt-1 mr-3"></i> <span>Complimentary hot breakfast included</span></li>
-                        </ul>
                     </div>
-                    <a href="https://wa.me/923282255771" target="_blank" class="bg-slate-900 group-hover:bg-emerald-900 text-white text-center py-4 font-medium uppercase tracking-widest text-sm transition-colors duration-300">
-                        Reserve This Room
-                    </a>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+                    <button id="executeDeployBtn" class="w-full md:w-auto bg-gray-900 text-white px-10 py-3 rounded-lg font-bold hover:bg-black transition-all shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
+                        <svg id="deployIcon" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                        Pull & Deploy
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Policies & House Rules -->
-    <section id="policies" class="py-24 bg-emerald-900 text-stone-100 relative overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
-        
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-serif font-bold text-white mb-4">Guest Policies & Etiquette</h2>
-                <p class="text-emerald-200 max-w-2xl mx-auto">To ensure a peaceful and premium environment for all our guests, we adhere to strict house policies.</p>
-            </div>
+        <!-- Footer -->
+        <footer class="mt-12 pt-8 border-t border-gray-200 text-center">
+            <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">
+                Last updated: 2026-04-23 | Bahalim Group Web Ops | <a href="deploy.php" class="underline hover:text-indigo-500 transition-colors">deploy.php</a>
+            </p>
+        </footer>
+    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Policy 1 -->
-                <div class="bg-emerald-800/50 backdrop-blur-sm p-8 border border-emerald-700/50 hover:bg-emerald-800 transition-colors">
-                    <i class="fas fa-clock text-amber-500 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-serif font-bold text-white mb-3">Check-In / Out</h3>
-                    <p class="text-emerald-100/80 text-sm leading-relaxed">Standard timing is <strong>12:00 PM</strong> for both check-in and check-out. We operate 24 hours to accommodate special travel schedules.</p>
-                </div>
-
-                <!-- Policy 2 -->
-                <div class="bg-emerald-800/50 backdrop-blur-sm p-8 border border-amber-500/30 hover:border-amber-500/80 transition-colors relative">
-                    <div class="absolute top-0 right-0 bg-amber-500 text-emerald-900 text-xs font-bold px-3 py-1 uppercase">Strictly Enforced</div>
-                    <i class="fas fa-users text-amber-500 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-serif font-bold text-white mb-3">Family & Couples</h3>
-                    <p class="text-emerald-100/80 text-sm leading-relaxed">We are a family-friendly establishment. <strong>Unmarried couples are strictly prohibited.</strong> Valid CNIC or proof of marriage is required at check-in.</p>
-                </div>
-
-                <!-- Policy 3 -->
-                <div class="bg-emerald-800/50 backdrop-blur-sm p-8 border border-emerald-700/50 hover:bg-emerald-800 transition-colors">
-                    <i class="fas fa-credit-card text-amber-500 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-serif font-bold text-white mb-3">Payments</h3>
-                    <p class="text-emerald-100/80 text-sm leading-relaxed">Full payment is required upon check-in to confirm your stay. We accept cash and major bank transfers on site.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer & Contact -->
-    <footer class="bg-slate-900 text-stone-300 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-                <!-- Brand Info -->
-                <div class="md:col-span-4">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <img src="http://noorgee.pk/stayora/img/stay-edited.png" alt="StayOra Logo" class="h-10 w-auto object-contain rounded opacity-90">
-                        <span class="text-2xl font-serif font-bold text-white tracking-wide">StayOra</span>
-                    </div>
-                    <p class="text-sm leading-relaxed text-slate-400 mb-6">
-                        A Bahalim Group property. Redefining luxury stays in Karachi with unmatched comfort, security, and elegance.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/stayoraguesthouse/" target="_blank" class="w-10 h-10 rounded bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition-all">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/stayoraguesthouse/" target="_blank" class="w-10 h-10 rounded bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition-all">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://wa.me/923282255771" target="_blank" class="w-10 h-10 rounded bg-slate-800 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Contact Details -->
-                <div class="md:col-span-4 md:col-start-6">
-                    <h4 class="text-white font-serif font-bold text-lg mb-6">Contact Us</h4>
-                    <ul class="space-y-4 text-sm text-slate-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-amber-500"></i>
-                            <span>House # 82-B, Street 6, Block B,<br>SMCHS, Roomi Masjid near Embassy Inn,<br>Shahra e Faisal, Karachi</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone mr-3 text-amber-500"></i>
-                            <a href="tel:03218255188" class="hover:text-amber-500 transition">0321 8255188</a> 
-                            <span class="mx-2">|</span> 
-                            <a href="tel:+923282255771" class="hover:text-amber-500 transition">+92 328 2255771</a>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-3 text-amber-500"></i>
-                            <a href="mailto:stayoraguesthouse@gmail.com" class="hover:text-amber-500 transition">stayoraguesthouse@gmail.com</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Map snippet -->
-                <div class="md:col-span-3">
-                    <div class="w-full h-40 bg-slate-800 rounded border border-slate-700 overflow-hidden relative group">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.2954285369633!2d67.03891471533797!3d24.82119729411711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1sStayOra%20Guest%20House!2sBlock%20B%2C%20SMCHS%2C%20Karachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="opacity-80 group-hover:opacity-100 transition-opacity"></iframe>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-slate-800 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-                <p>&copy; 2026 StayOra Guest House. All rights reserved.</p>
-                <p class="mt-2 md:mt-0 uppercase tracking-widest">Built for Comfort • SMCHS, Karachi</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Interactive Scripts -->
     <script>
-        // Mobile Menu Toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+        const REPO_OWNER = 'grapheart247';
+        const REPO_NAME = 'stayora';
+        let currentCommits = [];
+
+        const refreshBtn = document.getElementById('refreshBtn');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const branchSelect = document.getElementById('branchSelect');
+        const commitSelect = document.getElementById('commitSelect');
+        const detailsBox = document.getElementById('detailsBox');
+        const newChangesAlert = document.getElementById('newChangesAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        const deployStatusResult = document.getElementById('deployStatusResult');
+        const executeDeployBtn = document.getElementById('executeDeployBtn');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchGitHubCommits();
+            setInterval(fetchGitHubCommits, 60000);
         });
 
-        // Sticky Navbar Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                navbar.classList.add('py-0');
-                navbar.classList.remove('py-2');
-            } else {
-                navbar.classList.add('py-2');
-                navbar.classList.remove('py-0');
+        async function fetchGitHubCommits(isManual = false) {
+            if (isManual) {
+                refreshIcon.classList.add('animate-spin');
+                refreshBtn.disabled = true;
+                errorAlert.classList.add('hidden');
+                deployStatusResult.innerHTML = '<span class="text-amber-400">> Syncing with GitHub...</span>';
             }
+
+            try {
+                const branch = branchSelect.value;
+                const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${encodeURIComponent(branch)}&per_page=10&t=${Date.now()}`;
+                
+                const response = await fetch(url, {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (response.status === 404) throw new Error(`برانچ '${branch}' نہیں ملی۔`);
+                if (response.status === 403) throw new Error('API کی حد ختم ہوگئی ہے۔ تھوڑی دیر بعد کوشش کریں۔');
+                if (!response.ok) throw new Error(`GitHub API Error (${response.status})`);
+                
+                const commits = await response.json();
+                if (!Array.isArray(commits)) throw new Error('ڈیٹا کا فارمیٹ درست نہیں ہے۔');
+
+                if (currentCommits.length > 0 && commits.length > 0 && commits[0].sha !== currentCommits[0].sha) {
+                    newChangesAlert.classList.remove('hidden');
+                }
+
+                currentCommits = commits;
+                updateCommitDropdown(commits);
+                errorAlert.classList.add('hidden');
+
+                // If user clicked Sync, automatically display the latest commit and its status
+                if (isManual && commits.length > 0) {
+                    commitSelect.value = commits[0].sha;
+                    displayCommitDetails(commits[0]);
+                    deployStatusResult.innerHTML = `<span class="text-emerald-400">> Sync Complete. Found Commit: #${commits[0].sha.substring(0,7)}.<br>> Status: Ready to execute Pull & Deploy.</span>`;
+                }
+                
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                errorMessage.textContent = error.message;
+                errorAlert.classList.remove('hidden');
+                commitSelect.innerHTML = '<option value="" disabled selected>ایرور: ڈیٹا لوڈ نہیں ہوسکا</option>';
+            } finally {
+                if (isManual) {
+                    setTimeout(() => {
+                        refreshIcon.classList.remove('animate-spin');
+                        refreshBtn.disabled = false;
+                    }, 800);
+                }
+            }
+        }
+
+        refreshBtn.addEventListener('click', () => fetchGitHubCommits(true));
+
+        function updateCommitDropdown(commits) {
+            const previousValue = commitSelect.value;
+            commitSelect.innerHTML = '<option value="" disabled selected>Select a GitHub commit</option>';
+            
+            if (commits.length === 0) {
+                commitSelect.innerHTML = '<option value="" disabled selected>اس برانچ پر کوئی کمٹ نہیں ملی</option>';
+                return;
+            }
+
+            commits.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.sha;
+                const dateObj = new Date(item.commit.author.date);
+                const dateStr = dateObj.toLocaleString();
+                const shortSha = item.sha.substring(0, 7);
+                const message = item.commit.message.split('\n')[0]; 
+                opt.textContent = `[${dateStr}] #${shortSha} - ${message}`;
+                commitSelect.appendChild(opt);
+            });
+
+            if (previousValue && commits.some(c => c.sha === previousValue)) {
+                commitSelect.value = previousValue;
+            }
+        }
+
+        function displayCommitDetails(commit) {
+            document.getElementById('detailTitle').textContent = commit.commit.message.split('\n')[0];
+            document.getElementById('detailId').textContent = commit.sha;
+            document.getElementById('detailDate').textContent = new Date(commit.commit.author.date).toLocaleString();
+            document.getElementById('detailDesc').textContent = commit.commit.message;
+            
+            detailsBox.classList.remove('hidden');
+            detailsBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        commitSelect.addEventListener('change', (e) => {
+            const commit = currentCommits.find(c => c.sha === e.target.value);
+            if (commit) {
+                deployStatusResult.innerHTML = '<span class="text-blue-400">> Selected older commit. Waiting for action.</span>';
+                displayCommitDetails(commit);
+            }
+        });
+
+        branchSelect.addEventListener('change', () => {
+            commitSelect.innerHTML = '<option value="" disabled selected>برانچ تبدیل ہو رہی ہے...</option>';
+            detailsBox.classList.add('hidden');
+            newChangesAlert.classList.add('hidden');
+            fetchGitHubCommits(true);
+        });
+
+        // Pull & Deploy Simulation (Updates the Deploy Status Result box)
+        executeDeployBtn.addEventListener('click', () => {
+            if (currentCommits.length === 0) return;
+            
+            const btnIcon = document.getElementById('deployIcon');
+            executeDeployBtn.disabled = true;
+            btnIcon.classList.add('animate-spin');
+            
+            deployStatusResult.innerHTML = '<span class="text-amber-400">> Executing Deploy Script...<br>> Pulling files to /home/arikgrlc/stayora.com.pk</span>';
+            
+            // Mock API delay for deployment UI feel
+            setTimeout(() => {
+                deployStatusResult.innerHTML = `<span class="text-green-400">> ✅ Success! Deployed Commit ID: ${commitSelect.value.substring(0,7)} at ${new Date().toLocaleTimeString()}<br>> Website is now LIVE on stayora.com.pk</span>`;
+                btnIcon.classList.remove('animate-spin');
+                executeDeployBtn.disabled = false;
+            }, 2000);
+        });
+
+        document.getElementById('deployNewBtn').addEventListener('click', () => {
+            fetchGitHubCommits(true);
+            newChangesAlert.classList.add('hidden');
         });
     </script>
 </body>
